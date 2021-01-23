@@ -41,7 +41,7 @@ public class BooksRestController {
                 i++;
                 //log.info("Record inserted: {}",i);
             }
-            log.info("createBook: latency {} Recored Inserted: {}", System.currentTimeMillis() - startTime, i);
+            log.info("createBook: latency {} Total Records Inserted: {}", System.currentTimeMillis() - startTime, i);
             return ResponseEntity.ok(JsonToEnityMapper.entityToBookData(books.get(i-1)));
     }
 

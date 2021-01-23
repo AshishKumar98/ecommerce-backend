@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: ecom-user-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/ecomdb
+    username: root
+    password: 12345@Mysql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    enabled: false
+
+server:
+  port: 8082
