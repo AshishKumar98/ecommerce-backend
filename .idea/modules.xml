@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ecom-book-service/ecom-book-service.iml" filepath="$PROJECT_DIR$/ecom-book-service/ecom-book-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ecom-user-service/ecom-user-service.iml" filepath="$PROJECT_DIR$/ecom-user-service/ecom-user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ecommerce-backend.iml" filepath="$PROJECT_DIR$/.idea/ecommerce-backend.iml" />
+    </modules>
+  </component>
+</project>
