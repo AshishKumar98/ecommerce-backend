@@ -7,10 +7,7 @@ import com.instamojo.wrapper.exception.ConnectionException;
 import com.instamojo.wrapper.exception.HTTPException;
 import com.instamojo.wrapper.model.PaymentOrder;
 import com.instamojo.wrapper.model.PaymentOrderResponse;
-import ecom.ui.thymeleafui.models.BookData;
-import ecom.ui.thymeleafui.models.CartData;
-import ecom.ui.thymeleafui.models.SearchFields;
-import ecom.ui.thymeleafui.models.UserLogin;
+import ecom.ui.thymeleafui.models.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -307,7 +304,8 @@ public class EcomController {
     }
 
     @GetMapping("/transactionsuccess")
-    public String successGetOrder(Object obj) {
+    public String successGetOrder(PaymentDetails details, Model model) {
+        model.addAttribute("paydetails", details);
         return "transactionsuccess";
     }
 
@@ -330,7 +328,7 @@ public class EcomController {
         paymentOrder.setCurrency("INR");
         paymentOrder.setAmount(amount);
         paymentOrder.setDescription("This is a test transaction.");
-        paymentOrder.setRedirectUrl("http://EcomUiWeb-env-1.eba-wnc3ed3p.ap-south-1.elasticbeanstalk.com/ui/transactionsuccess");
+        paymentOrder.setRedirectUrl("http://uiweb-env.eba-jbhtxqmy.ap-south-1.elasticbeanstalk.com/ui/transactionsuccess");
         //paymentOrder.setWebhookUrl("http://www.someurl.com/");
         paymentOrder.setTransactionId("ashishtransac"+getRandomInt(10000));
 
@@ -355,7 +353,7 @@ public class EcomController {
         } catch (ConnectionException e) {
             log.error("Error e: {}",e.getMessage());
         }
-        redirectView.setUrl("http://localhost:9090/ui/onerr");
+        redirectView.setUrl("http://uiweb-env.eba-jbhtxqmy.ap-south-1.elasticbeanstalk.com/ui/onerr");
         return redirectView;
     }
 
@@ -366,7 +364,7 @@ public class EcomController {
         return redirectView;
     }
 
-    @GetMapping("/onerre")
+    @GetMapping("/onerr")
     public String onErr() {
         return "renamethisfatal";
     }
