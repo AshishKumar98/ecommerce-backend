@@ -40,9 +40,9 @@
             </div>
         </div>
 
-    </div>
+    </div> makepayment
     Cart Value <p class="card-text" th:text="${totalcartvalue}"></p>
-    <a href="https://addtocart" target="_blank" class="btn btn-primary">Check Out</a>
+    <a th:href="@{/ui/makepayment/(amount=${totalcartvalue})}" class="btn btn-primary">Place Order</a>
 
 </div>
 </body>

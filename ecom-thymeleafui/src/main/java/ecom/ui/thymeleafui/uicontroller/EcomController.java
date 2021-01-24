@@ -1,6 +1,12 @@
 package ecom.ui.thymeleafui.uicontroller;
 
+import com.instamojo.wrapper.api.ApiContext;
+import com.instamojo.wrapper.api.Instamojo;
+import com.instamojo.wrapper.api.InstamojoImpl;
+import com.instamojo.wrapper.exception.ConnectionException;
+import com.instamojo.wrapper.exception.HTTPException;
 import com.instamojo.wrapper.model.PaymentOrder;
+import com.instamojo.wrapper.model.PaymentOrderResponse;
 import ecom.ui.thymeleafui.models.BookData;
 import ecom.ui.thymeleafui.models.CartData;
 import ecom.ui.thymeleafui.models.SearchFields;
@@ -13,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.jws.WebParam;
 import java.awt.print.Book;
@@ -135,6 +142,11 @@ public class EcomController {
     private int getRandomInt() {
         Random random = new Random();
         return random.nextInt(9);
+    }
+
+    private int getRandomInt(int n) {
+        Random random = new Random();
+        return random.nextInt(n);
     }
 
 
@@ -294,20 +306,59 @@ public class EcomController {
         return "redirect:/ui/cart";
     }
 
-
-    public String createOrder( ) {
+    @GetMapping("/makepayment")
+    public RedirectView createOrder(double amount) {
+        RedirectView redirectView = new RedirectView();
+        ApiContext context = ApiContext.create("test_S5Geexj0XilN54zX2bFr8NNZ5eEQzWmhJ04",
+                "test_5WulkeAvd9vDvp7TuXBwRhG3arqZeDJwQYPLF4RACAOQqPteWDRt8tlHhxKkIvkZOrnBQSkiDEVQjma8zfeZaQmyXTw2aeeEwvbT7PoRtijlHL23DYMiWiQixCI",
+                ApiContext.Mode.TEST);
+        Instamojo api = new InstamojoImpl(context);
         PaymentOrder paymentOrder = new PaymentOrder();
         paymentOrder.setName("Ashish");
         paymentOrder.setEmail("ashishteotia98@gmail.com");
         paymentOrder.setPhone("9033088547");
         paymentOrder.setCurrency("INR");
-        paymentOrder.setAmount(5D);
+        paymentOrder.setAmount(amount);
         paymentOrder.setDescription("This is a test transaction.");
         paymentOrder.setRedirectUrl("http://www.someexample.com");
-        paymentOrder.setWebhookUrl("http://www.someurl.com/");
-        paymentOrder.setTransactionId("ashish12345");
+        //paymentOrder.setWebhookUrl("http://www.someurl.com/");
+        paymentOrder.setTransactionId("ashishtransac"+getRandomInt(10000));
 
-        return null;
+        log.info("ORDER: {}"+paymentOrder.toString());
+
+        try {
+            PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(paymentOrder);
+
+            log.info("Payment Response: {}", paymentOrderResponse.toString());
+            log.info("Payment Status: {}", paymentOrderResponse.getPaymentOrder().getStatus());
+
+
+            String url = paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+            redirectView.setUrl(url);
+            return redirectView;
+
+        } catch (HTTPException e) {
+            log.error("Error Code: {}", e.getStatusCode());
+            log.error("Error MSG: {}", e.getMessage());
+            log.error("Error Payload: {}", e.getJsonPayload());
+
+        } catch (ConnectionException e) {
+            log.error("Error e: {}",e.getMessage());
+        }
+        redirectView.setUrl("http://localhost:9090/ui/onerr");
+        return redirectView;
+    }
+
+    @GetMapping("/google")
+    public RedirectView goGoole() {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("http://www.yahoo.com");
+        return redirectView;
+    }
+
+    @GetMapping("/onerre")
+    public String onErr() {
+        return "renamethisfatal";
     }
 
 
