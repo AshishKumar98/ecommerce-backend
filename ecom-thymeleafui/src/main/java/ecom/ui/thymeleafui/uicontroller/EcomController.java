@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.jws.WebParam;
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -82,7 +80,7 @@ public class EcomController {
         final String email = credential.getEmail();
         final String pass = credential.getPassword();
         RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:8082/cart/authenticate?email="+email+"&password="+pass;
+        String uri = "http://EcomUserServices-env.eba-muw4m3u2.ap-south-1.elasticbeanstalk.com/cart/authenticate?email="+email+"&password="+pass;
         log.info("URL: "+uri);
         Boolean response = restTemplate.getForObject(uri, Boolean.class);
         log.info("user Logged in: {}", response);
@@ -121,7 +119,7 @@ public class EcomController {
 
 
         RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:8081/bookapi?pageNumber="+pageNumber+"&pageSize="+pageSize+"&sortBy="+sortBy+"&sortDirection="+order;
+        String uri = "http://Bookservice-env.eba-irtamiwp.ap-south-1.elasticbeanstalk.com/bookapi?pageNumber="+pageNumber+"&pageSize="+pageSize+"&sortBy="+sortBy+"&sortDirection="+order;
         log.info("URL: "+uri);
 
         ResponseEntity<List<BookData>> rateResponse =
@@ -156,7 +154,7 @@ public class EcomController {
         String email = "ashteo@gmail.com";
 
         RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:8082/cart/"+email;
+        String uri = "http://EcomUserServices-env.eba-muw4m3u2.ap-south-1.elasticbeanstalk.com/cart/"+email;
         log.info("URL: "+uri);
         String response = restTemplate.getForObject(uri, String.class);
         log.info("user Items in cart: {}", response);
@@ -164,7 +162,7 @@ public class EcomController {
 
             RestTemplate restTemplate1 = new RestTemplate();
 
-            uri = "http://localhost:8081/bookapi/getbylist?bookIDs="+response;
+            uri = "http://Bookservice-env.eba-irtamiwp.ap-south-1.elasticbeanstalk.com/bookapi/getbylist?bookIDs="+response;
             log.info("URL for book service: "+uri);
 
             ResponseEntity<List<BookData>> bookResponse =
@@ -214,9 +212,9 @@ public class EcomController {
         RestTemplate restTemplate = new RestTemplate();
         String uri = null;
         if(title==null || title.equals("") || languageCode==null || languageCode.equals("")) {
-            uri = "http://localhost:8081/bookapi?pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&sortBy=" + sortBy + "&sortDirection=" + order;
+            uri = "http://Bookservice-env.eba-irtamiwp.ap-south-1.elasticbeanstalk.com/bookapi?pageNumber=" + pageNumber + "&pageSize=" + pageSize + "&sortBy=" + sortBy + "&sortDirection=" + order;
         } else {
-            uri = "http://localhost:8081/bookapi?pageNumber=" + pageNumber +
+            uri = "http://Bookservice-env.eba-irtamiwp.ap-south-1.elasticbeanstalk.com/bookapi?pageNumber=" + pageNumber +
                                                 "&pageSize=" + pageSize +
                                                 "&sortBy=" + sortBy +
                                                 "&sortDirection=" + order +
@@ -248,7 +246,7 @@ public class EcomController {
         String email = "ashteo@gmail.com";
 
         RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:8082/cart/"+email;
+        String uri = "http://EcomUserServices-env.eba-muw4m3u2.ap-south-1.elasticbeanstalk.com/cart/"+email;
         log.info("URL: "+uri);
         String response = restTemplate.getForObject(uri, String.class);
         response = response+","+bookid;
@@ -256,7 +254,7 @@ public class EcomController {
 
 
         CartData cartData = CartData.builder().email(email).itemIDs(response).build();
-        uri = "http://localhost:8082/cart/";
+        uri = "http://EcomUserServices-env.eba-muw4m3u2.ap-south-1.elasticbeanstalk.com/cart/";
 
         /*ResponseEntity<List<BookData>> rateResponse =
                 restTemplate.exchange(uri,
@@ -275,7 +273,7 @@ public class EcomController {
         String email = "ashteo@gmail.com";
 
         RestTemplate restTemplate = new RestTemplate();
-        String uri = "http://localhost:8082/cart/"+email;
+        String uri = "http://EcomUserServices-env.eba-muw4m3u2.ap-south-1.elasticbeanstalk.com/cart/"+email;
         log.info("URL: "+uri);
         String response = restTemplate.getForObject(uri, String.class);
         log.info("Existing Card: {}", response);
@@ -295,7 +293,7 @@ public class EcomController {
 
 
         CartData cartData = CartData.builder().email(email).itemIDs(newItem).build();
-        uri = "http://localhost:8082/cart/";
+        uri = "http://EcomUserServices-env.eba-muw4m3u2.ap-south-1.elasticbeanstalk.com/cart/";
 
         /*ResponseEntity<List<BookData>> rateResponse =
                 restTemplate.exchange(uri,
@@ -306,6 +304,16 @@ public class EcomController {
         log.info("cart updated: {}", added);
 
         return "redirect:/ui/cart";
+    }
+
+    @GetMapping("/transactionsuccess")
+    public String successGetOrder(Object obj) {
+        return "transactionsuccess";
+    }
+
+    @PostMapping("/transactionsuccess")
+    public String successPostOrder(Object obj) {
+        return "transactionsuccess";
     }
 
     @GetMapping("/makepayment")
@@ -322,7 +330,7 @@ public class EcomController {
         paymentOrder.setCurrency("INR");
         paymentOrder.setAmount(amount);
         paymentOrder.setDescription("This is a test transaction.");
-        paymentOrder.setRedirectUrl("http://www.someexample.com");
+        paymentOrder.setRedirectUrl("http://EcomUiWeb-env-1.eba-wnc3ed3p.ap-south-1.elasticbeanstalk.com/ui/transactionsuccess");
         //paymentOrder.setWebhookUrl("http://www.someurl.com/");
         paymentOrder.setTransactionId("ashishtransac"+getRandomInt(10000));
 
