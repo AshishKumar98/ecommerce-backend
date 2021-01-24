@@ -202,7 +202,8 @@ public class EcomController {
         String order= searchFields.getOrder();
         String sortBy = searchFields.getSortBy();
         String title = searchFields.getTitle();
-        String languageCode= searchFields.getLanguageCode();
+        String languageCode = searchFields.getLanguageCode();
+        String authors = searchFields.getAuthors();
 
 
 
@@ -220,7 +221,8 @@ public class EcomController {
                                                 "&sortBy=" + sortBy +
                                                 "&sortDirection=" + order +
                                                 "&title="+ title +
-                                                "&languageCode="+languageCode;
+                                                "&languageCode="+languageCode +
+                                                "&authors="+authors;
         }
 
         log.info("URL: "+uri);

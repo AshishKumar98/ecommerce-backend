@@ -1,6 +1,5 @@
 package com.ecom.bookservice.rest.model;
 
-import com.sun.tracing.dtrace.ArgsAttributes;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;

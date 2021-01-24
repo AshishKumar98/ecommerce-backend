@@ -14,5 +14,6 @@ public class SearchFields {
     private String sortBy = "title";
     private String title;
     private String languageCode= "en";
+    private String authors;
 
 }

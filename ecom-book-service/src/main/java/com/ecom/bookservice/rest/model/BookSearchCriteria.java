@@ -10,5 +10,6 @@ import lombok.ToString;
 public class BookSearchCriteria {
     private String title;
     private String languageCode;
+    private String authors;
 
 }

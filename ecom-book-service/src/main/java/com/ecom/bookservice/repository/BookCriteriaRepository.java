@@ -57,12 +57,20 @@ public class BookCriteriaRepository {
             );
         }
 
-        if (Objects.nonNull(bookSearchCriteria.getTitle())) {
+        if (Objects.nonNull(bookSearchCriteria.getLanguageCode())) {
             predicateList.add(
                     criteriaBuilder.like(bookRoot.get("languageCode"),
                             "%" + bookSearchCriteria.getLanguageCode() + "%")
             );
         }
+
+        if (Objects.nonNull(bookSearchCriteria.getAuthors())) {
+            predicateList.add(
+                    criteriaBuilder.like(bookRoot.get("authors"),
+                            "%" + bookSearchCriteria.getAuthors() + "%")
+            );
+        }
+
         return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
     }
 

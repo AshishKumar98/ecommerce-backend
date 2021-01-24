@@ -39,6 +39,8 @@
            class="form-control mb-2 col-1" placeholder="Book Title">
     <input type="text" th:field="*{languageCode}"
            class="form-control mb-2 col-1" placeholder="Language Code">
+    <input type="text" th:field="*{authors}"
+           class="form-control mb-2 col-1" placeholder="Authors">
 
     <button type="submit" class="btn btn-info col-2">Find</button>
 
@@ -58,6 +60,9 @@
 
                     <div>
                         AVG RT: <p class="card-text" th:text="${book.getAverage_rating()}"></p>
+                    </div>
+                    <div>
+                        Author: <p class="card-text" th:text="${book.getAuthors()}"></p>
                     </div>
                     <a th:href="@{/ui/addtocart/(bookid=${book.getBookID()})}"
                        class="btn btn-primary btn-sm mb-3">
