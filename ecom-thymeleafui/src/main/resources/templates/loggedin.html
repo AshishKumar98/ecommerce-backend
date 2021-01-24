@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<link rel="stylesheet" th:href="@{/css/ecom.css}"/>-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Bazar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<!--<p th:text="'Login Response: ' + ${login}" />-->
+<div class="container">
+    <h3>Book Catalog</h3>
+    <hr>
+    <!--<p th:text="'Login Response: ' + ${login}" />-->
+    <p class ="h4 mb-4">Logged IN Wow :) </p>
+
+    <hr>
+    <a th:href="@{/ui/home}"
+       class="btn btn-primary btn-sm mb-3">
+        Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

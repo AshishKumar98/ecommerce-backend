@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Cart Items</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h3>My Cart Items</h3>
+<hr>
+<a th:href="@{/ui/catalog}"
+   class="btn btn-primary btn-sm mb-3">
+    Browse More
+</a>
+<div class="container">
+
+
+    <div class="row">
+
+
+        <div class="col-sm-4" th:each="book : ${books}">
+            <div class="card">
+                <img class="card-img-top" th:src="${book.getUrl()}" alt="JSA Card image"  width="200" height="300" />
+
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${book.getTitle()}"></h4>
+                    Price: <p class="card-text" th:text="${book.getPrice()}"></p>
+                    <div>
+                        AVG RT: <p class="card-text" th:text="${book.getAverage_rating()}"></p>
+                    </div>
+                    <a th:href="@{/ui/removecartitem/(bookid=${book.getBookID()})}"
+                       class="btn btn-primary btn-sm mb-3">
+                        Remove From Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    Cart Value <p class="card-text" th:text="${totalcartvalue}"></p>
+    <a href="https://addtocart" target="_blank" class="btn btn-primary">Check Out</a>
+
+</div>
+</body>
+</html>

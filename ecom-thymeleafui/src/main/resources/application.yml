@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: Ecomm-UI
+
+server:
+  port: 9090

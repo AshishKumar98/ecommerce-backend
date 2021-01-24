@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bootstrap 4 CardImage</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h3>Book Catalog</h3>
+<hr>
+<a th:href="@{/ui/cart}"
+   class="btn btn-primary btn-sm mb-3">
+    My Cart
+</a>
+
+<form action="#" th:action="@{/ui/showfilteredres}"
+      th:object="${searchfilters}" method="post">
+
+<!--    rivate String pageNumber = "0";
+    private String pageSize = "10";
+    private String order= "ASC";
+    private String sortBy = "title";
+    private String title = "title";
+    private String languageCode= "en";-->
+
+    <input type="number" th:field="*{pageNumber}"
+           class="form-control mb-2 col-1" placeholder="Page Number">
+    <input type="number" th:field="*{pageSize}"
+           class="form-control mb-2 col-1" placeholder="Page Size">
+    <input type="text" th:field="*{order}"
+           class="form-control mb-2 col-1" placeholder="Order">
+    <input type="text" th:field="*{sortBy}"
+           class="form-control mb-2 col-1" placeholder="sort By">
+    <input type="text" th:field="*{title}"
+           class="form-control mb-2 col-1" placeholder="Book Title">
+    <input type="text" th:field="*{languageCode}"
+           class="form-control mb-2 col-1" placeholder="Language Code">
+
+    <button type="submit" class="btn btn-info col-2">Find</button>
+
+</form>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-4" th:each="book : ${books}">
+            <div class="card">
+                <img class="card-img-top" th:src="${book.getUrl()}" alt="JSA Card image"  width="200" height="300" />
+
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${book.getTitle()}"></h4>
+                    Price: <p class="card-text" th:text="${book.getPrice()}"></p>
+
+                    <div>
+                        AVG RT: <p class="card-text" th:text="${book.getAverage_rating()}"></p>
+                    </div>
+<!--                    <a href="https://addtocart" target="_blank" class="btn btn-primary">Add to Cart</a>-->
+                    <a th:href="@{/ui/addtocart/(bookid=${book.getBookID()})}"
+                       class="btn btn-primary btn-sm mb-3">
+                        ADD to MY CART
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+</body>
+</html>

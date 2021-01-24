@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -70,6 +71,24 @@ public class BooksRestController {
         log.info("get By ID: latency {}", System.currentTimeMillis() - startTime);
         return ResponseEntity.ok(JsonToEnityMapper.entityToBookData(savedBook));
 
+    }
+
+    @GetMapping("/getbylist")
+    public ResponseEntity<List<BookData>> findBookList(final String bookIDs) {
+        long startTime = System.currentTimeMillis();
+        log.info("Book List of IDS:{} ", bookIDs);
+        String bookIDArr[] = bookIDs.split(",");
+        List<Book> bookList = new ArrayList<>();
+        for (String str: bookIDArr) {
+            try {
+                int bID = Integer.parseInt(str);
+                Book book = bookService.findByID(bID);
+                if (book != null) bookList.add(book);
+            }catch (NumberFormatException e){continue;}
+        }
+        log.info("Total Books Found: {}", bookList.size());
+        log.info("get By ID: latency {}", System.currentTimeMillis() - startTime);
+        return ResponseEntity.ok(JsonToEnityMapper.entityToBookData(bookList));
     }
 
     //@GetMapping(name= "/all", produces = {MediaType.APPLICATION_JSON_VALUE})

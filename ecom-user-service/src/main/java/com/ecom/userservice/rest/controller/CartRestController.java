@@ -30,6 +30,20 @@ public class CartRestController {
 
     private static Map<String, Boolean> map = new ConcurrentHashMap<>();
 
+    @GetMapping("/{email}")
+    public ResponseEntity<String> getItemsIDs(@PathVariable final String email) {
+        log.info("email for get cart list {}", email);
+        User user = null;
+        if (map.size()>0 && map.containsKey(email) && map.get(email)==true) {
+            user = userService.getUserByEmail(email);
+            String items = cartService.getCartByUserID(user.getUserID()).getItemIDs();
+            log.info("Items from cart: {}", items);
+            return ResponseEntity.ok(items);
+        }
+        return ResponseEntity.ok(null);
+
+    }
+
     @PostMapping
     public ResponseEntity<Boolean> addToCart(@RequestBody CartData cart) {
         log.info("add cart: {}", cart);
@@ -65,7 +79,9 @@ public class CartRestController {
 
     @GetMapping("/authenticate")
     public ResponseEntity<Boolean> authenticateUser(final UserLogin loginData){
+        log.info("userLogin: {}", loginData);
         User user = userService.getUserByEmail(loginData.getEmail());
+        log.info("USER: {}", user);
         if(null != user && user.getPassword().equals(loginData.getPassword())){
             map.put(loginData.getEmail(), true);
             for (String email: map.keySet()){

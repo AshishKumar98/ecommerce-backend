@@ -2,23 +2,30 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="swaggerUI" />
         <module name="ecom-user-service" />
+        <module name="ecom-thymeleafui" />
         <module name="ecom-book-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ecom-book-service" target="1.8" />
+      <module name="ecom-thymeleafui" target="1.8" />
       <module name="ecom-user-service" target="1.8" />
+      <module name="swaggerUI" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ecom-book-service" options="-parameters" />
+      <module name="ecom-thymeleafui" options="-parameters" />
       <module name="ecom-user-service" options="-parameters" />
+      <module name="swaggerUI" options="-parameters" />
     </option>
   </component>
 </project>
